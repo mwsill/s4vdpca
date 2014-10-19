@@ -1,6 +1,5 @@
 import(parallel)
 
-export(s4vdpca)
-export(rspca)
-export(generate_covar)
+export(s4vdpca,
+       rspca)
 
