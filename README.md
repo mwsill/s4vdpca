@@ -2,8 +2,12 @@ s4vdpca
 =======
 
 ```{r}
+# install package using devtools
 library(devtools)
 install_github('mwsill/s4vdpca')
+
+# example
+library(s4vdpca)
 library(broman)
 p <- 1000
 n <- 50
