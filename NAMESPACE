@@ -1,2 +1,3 @@
 exportPattern(s4vdpca, 
-              respca)
+              respca,
+              generate_covar)
