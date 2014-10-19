@@ -1,5 +1,4 @@
 import(parallel)
 
-export(s4vdpca, 
-       respca,
-       generate_covar)
+exportPattern("^[^\\.]")
+
