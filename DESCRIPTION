@@ -1,8 +1,10 @@
 Package: s4vdpca
-Title: What the package does (one line)
-Version: 0.1
-Authors@R: "First Last <first.last@example.com> [aut, cre]"
-Description: What the package does (one paragraph)
+Title: sparse principal component analysis using stability selection
+Version: 0.1.0
+Authors@R: c(person("Martin", "Sill", role = c("aut", "cre", "ths"),
+    email = "m.sil@dkfz.de"))
+Description: sparse pca using stability selection, fast rspca using lasso, adaptive lasso and scad penalties
 Depends: R (>= 3.1.1)
-License: What license is it under?
+Imports: parallel
+License: GPL-2
 LazyData: true
