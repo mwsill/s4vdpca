@@ -45,4 +45,4 @@ abline(v=res.s4vd6$minic,col='pink')
 legend('topright',c('BIC','GIC2','GIC3','GIC4','GIC5','GIC6'),fill=c('black','red','blue','green','orange','pink'))
 ```
 
-
+sudo -s "echo /usr/local/texlive/2014/bin/x86_64-darwin/ > /etc/paths.d/TeX"
