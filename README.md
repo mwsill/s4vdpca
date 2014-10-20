@@ -29,18 +29,20 @@ res.s4vd4 <- s4vdpca(X,B=100,size=0.5,cores=4,weakness=0.5,lq=0.5,steps=500,ic_t
 res.s4vd5 <- s4vdpca(X,B=100,size=0.5,cores=4,weakness=0.5,lq=0.5,steps=500,ic_type='gic5')
 res.s4vd6 <- s4vdpca(X,B=100,size=0.5,cores=4,weakness=0.5,lq=0.5,steps=500,ic_type='gic6')
 
-plot(res.s4vd1$ic,pch='.',ylim=c(500000,800000),cex=2)
+plot(res.s4vd1$ic,pch='.',ylim=c(50000,80000),xlim=c(0,400),cex=2,ylab='ic')
 abline(v=res.s4vd1$minic)
-points(res.s4vd2$ic,pch='.',col='red',cex=2)
+points(res.s4vd1$ic,pch='.',col='black',cex=5)
+points(res.s4vd2$ic,pch='.',col='red',cex=5)
 abline(v=res.s4vd2$minic,col='red')
-points(res.s4vd3$ic,pch='.',col='blue',cex=2)
+points(res.s4vd3$ic,pch='.',col='blue',cex=5)
 abline(v=res.s4vd3$minic,col='blue')
-points(res.s4vd4$ic,pch='.',col='green',cex=2)
+points(res.s4vd4$ic,pch='.',col='green',cex=5)
 abline(v=res.s4vd4$minic,col='green')
-points(res.s4vd5$ic,pch='.',col='orange',cex=2)
+points(res.s4vd5$ic,pch='.',col='orange',cex=5)
 abline(v=res.s4vd5$minic,col='orange')
-points(res.s4vd6$ic,pch='.',col='pink')
-abline(v=res.s4vd6$minic,col='pink',cex=2)
+points(res.s4vd6$ic,pch='.',col='pink',cex=5)
+abline(v=res.s4vd6$minic,col='pink')
+legend('topright',c('BIC','GIC2','GIC3','GIC4','GIC5','GIC6'),fill=c('black','red','blue','green','orange','pink'))
 ```
 
 
