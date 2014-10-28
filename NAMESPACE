@@ -1,6 +1,8 @@
 import(parallel)
-
+#exportPattern("^[^\\.]") 
 export(s4vdpca,
        rspca,
-       generate_covar)
+       ssvdpca,
+       generate_covar,
+       angle)
 

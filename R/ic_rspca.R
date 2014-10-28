@@ -3,7 +3,7 @@ ic_rspca <- function(lambdas,p,index,adaw,ols,X,n,u0,sigsq,a,type,ic_type){
   vc <- switch(type,
                soft = softthresh(ols, delta = lambda/adaw),
                hard = hardthresh(ols, delta = lambda/adaw),
-               scad = hardthresh(ols, delta = lambda/adaw,a)
+               scad = scad(ols, delta = lambda/adaw,a)
                )           
   ic <- switch(ic_type,
                bic = sum((X - u0 %*% t(vc))^2)/sigsq + index *

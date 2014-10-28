@@ -1,11 +1,10 @@
 #SSVD PCA Lee et al. 2011 Shen 2006
-rspca <- function(X, gamv = 0, type='soft', ic_type='gic5', a=3.7,  merr = 10^(-4), niter=100,cores=1,steps=100) 
+rspca <- function(X, center=TRUE, scale=FALSE, gamv = 0, type='soft', ic_type='gic5', a=3.7,  merr = 10^(-4), niter=100,cores=1,steps=100) 
 {
+  X  <- scale(X, center, scale)
   n <- nrow(X)
   p <- ncol(X)
   stop <- FALSE
-  #if(is.null(steps)) steps <- floor(p/100)
-  # irlba faster for large X
   svdX <- svd(X,nu=1,nv=1)
   v0 <- svdX$v
   u0 <- svdX$u
