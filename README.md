@@ -11,47 +11,41 @@ install_github('mwsill/s4vdpca')
 
 # example
 library(s4vdpca)
-# library broman implements rmvn to simulate from a multivariate normal distribution
-library(broman)
-
 # generate a simulated data set using the single-covariance spike model 
-p <- 1000
-n <- 50
-nsim <- 100
-alpha <- .8  #spike index 
-beta <- .8   #sparsity index 
+p <- 1000    # number of variables
+n <- 50      # number of observations
+alpha <- .5  # spike index 
+beta <- .5   # sparsity index 
 
 # generate a population variance covariance matrix
 Sigma <- generate_covar(alpha,beta,p)
+
 # extract first eigenvector
 z1 <- Sigma[[2]]
-# variance covariance matrix
+
+# extract variance covariance matrix
 Sigma <- Sigma[[1]]
 
-# sample from multivariate data
-X  <- rmvn(n,rep(0,p),Sigma)
+# sample from multivariate normal distribution using Cholesky decomposition
+# see ?rmvn in package broman for details
+D <- chol(Sigma)
+x <- matrix(rnorm(n * p), ncol = p) %*% D + rep(rep(0,p), rep(n, p))
 
-#apply s4vdpca using different information criteria bic to gic6
-res.s4vd1 <- s4vdpca(X,B=100,center=TRUE,size=0.5,cores=1,weakness=0.5,lq=0.5,steps=500,ic_type='bic')
-res.s4vd2 <- s4vdpca(X,B=100,center=TRUE,size=0.5,cores=1,weakness=0.5,lq=0.5,steps=500,ic_type='gic2')
-res.s4vd3 <- s4vdpca(X,B=100,center=TRUE,size=0.5,cores=1,weakness=0.5,lq=0.5,steps=500,ic_type='gic3')
-res.s4vd4 <- s4vdpca(X,B=100,center=TRUE,size=0.5,cores=1,weakness=0.5,lq=0.5,steps=500,ic_type='gic4')
-res.s4vd5 <- s4vdpca(X,B=100,center=TRUE,size=0.5,cores=1,weakness=0.5,lq=0.5,steps=500,ic_type='gic5')
-res.s4vd6 <- s4vdpca(X,B=100,center=TRUE,size=0.5,cores=1,weakness=0.5,lq=0.5,steps=500,ic_type='gic6')
+# apply S4VPCA with GIC5 
+res <- s4vdpca(x, center=TRUE, cores=1, ic_type='gic5')
 
-plot(res.s4vd1$ic,pch='.',ylim=c(50000,80000),xlim=c(0,400),cex=2,ylab='ic')
-abline(v=res.s4vd1$minic)
-points(res.s4vd1$ic,pch='.',col='black',cex=5)
-points(res.s4vd2$ic,pch='.',col='red',cex=5)
-abline(v=res.s4vd2$minic,col='red')
-points(res.s4vd3$ic,pch='.',col='blue',cex=5)
-abline(v=res.s4vd3$minic,col='blue')
-points(res.s4vd4$ic,pch='.',col='green',cex=5)
-abline(v=res.s4vd4$minic,col='green')
-points(res.s4vd5$ic,pch='.',col='orange',cex=5)
-abline(v=res.s4vd5$minic,col='orange')
-points(res.s4vd6$ic,pch='.',col='pink',cex=5)
-abline(v=res.s4vd6$minic,col='pink')
-legend('topright',c('BIC','GIC2','GIC3','GIC4','GIC5','GIC6'),fill=c('black','red','blue','green','orange','pink'))
+# plot the information criterion
+plot(res$ic, xlab='number of features', ylab='GIC 5')
+abline(v=res $minic, col='red')
+
+# calculate angle between estimated sparse loadings vector and simulated eigenvector
+angle(res$v,z1)
+
+# calculate number of falsely selected features
+sum(which(res$v!=0) %in% which(z1==0))
+
+# apply regular pca and calculate angle
+pca <- prcomp(x)
+angle(pca$rotation[,1],z1)
 ```
 
