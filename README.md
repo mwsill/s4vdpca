@@ -9,6 +9,7 @@ This R package implements methods for sparse principal component analysis as des
 # install.packages('devtools')
 library(devtools)                  
 install_github('mwsill/s4vdpca')
+library(s4vdpca)
 
 # generate a simulated data set using the single-covariance spike model 
 p <- 1000    # number of variables
@@ -43,16 +44,20 @@ res4 <- rspca(x, center=TRUE, cores=4, ic_type='gic5', gamv=1) # adaptive lasso
 
 # plot the information criterion
 par(mfrow=c(2,2))
-plot(res1$ic, xlab='number of selected features', ylab='GIC 5',main='S4VDPCA')
+plot(res1$ic, xlab='number of selected features', ylab='GIC 5'
+,main='S4VDPCA')
 abline(v=res1$minic, col='red')
 text(y=max(res1$ic,na.rm=T)-1000,x=res1$minic+100,res1$minic,col='red')
-plot(res2$ic, xlab='number of selected features', ylab='GIC 5',main='RSPCA lasso')
+plot(res2$ic, xlab='number of selected features', ylab='GIC 5'
+,main='RSPCA lasso')
 abline(v=res2$minic, col='red')
 text(y=max(res2$ic,na.rm=T)-1000,x=res2$minic+100,res2$minic,col='red')
-plot(res3$ic, xlab='number of selected features', ylab='GIC 5',main='RSPCA scad')
+plot(res3$ic, xlab='number of selected features', ylab='GIC 5'
+,main='RSPCA scad')
 abline(v=res3$minic, col='red')
 text(y=max(res3$ic,na.rm=T)-1000,x=res3$minic+100,res3$minic,col='red')
-plot(res4$ic, xlab='number of selected features', ylab='GIC 5',main='RSPCA adaptive lasso')
+plot(res4$ic, xlab='number of selected features', ylab='GIC 5'
+,main='RSPCA adaptive lasso')
 abline(v=res4$minic, col='red')
 text(y=max(res4$ic,na.rm=T)-1000,x=res4$minic+100,res4$minic,col='red')
 
