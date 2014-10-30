@@ -12,10 +12,10 @@ install_github('mwsill/s4vdpca')
 library(s4vdpca)
 
 # generate a simulated data set using the single-covariance spike model 
-p <- 1000    # number of variables
-n <- 50      # number of observations
-alpha <- .8  # spike index 
-beta <- .8   # sparsity index 
+p <- 5000    # number of variables
+n <- 25      # number of observations
+alpha <- .5  # spike index 
+beta <- .5   # sparsity index 
 
 # generate a population variance covariance matrix
 Sigma <- generate_covar(alpha,beta,p)
@@ -38,8 +38,8 @@ x <- matrix(rnorm(n * p), ncol = p) %*% D + rep(rep(0,p), rep(n, p))
 
 # apply S4VDPCA and RSPCA with different penalization functions, all with GIC5 
 # parallelization is not yet available on Windows machines
-res1 <- s4vdpca(x, center=TRUE, cores=1, ic_type='gic5')
-res2 <- rspca(x, center=TRUE, cores=1, ic_type='gic5') #lasso
+res1 <- s4vdpca(x, center=TRUE, cores=4, ic_type='gic5')
+res2 <- rspca(x, center=TRUE, cores=4, ic_type='gic5') #lasso
 res3 <- rspca(x, center=TRUE, cores=1, ic_type='gic5', type='scad') #scad 
 res4 <- rspca(x, center=TRUE, cores=1, ic_type='gic5', gamv=1) # adaptive lasso
 
@@ -87,10 +87,19 @@ angle(pca$rotation[,1],z1)
 
 # ssvdpca is the original rspca function by Lee et al. 2010
 X  <- scale(x, center=TRUE)
+system.time(
 res5 <- ssvdpca(X) #lasso
-# optimized code bic evaluted for each variable 
-res6 <- rspca(X, center=FALSE, cores=1,steps=1000, ic_type='bic') #lasso
+)
+# optimized code; search for minimal bic
+system.time(
+res6 <- rspca(X, center=FALSE, cores=1,steps=100, ic_type='bic') #lasso
+)
+# optimized code; parallelized search for minimal bic, only on Unix machines
+system.time(
+res7 <- rspca(X, center=FALSE, cores=4,steps=100, ic_type='bic') #lasso
+)
 # estimated loadings are the same 
 all(res5$v==res6$v)
+all(res5$v==res7$v)
 ```
 
