@@ -1,5 +1,8 @@
 #original SSVD PCA Lee et al. 2011 bzw. Shen 2006
-ssvdpca <- function(X, threu = 1, threv = 1, gamu = 0, gamv = 0, u0 = svd(X)$u[,1], v0 = svd(X)$v[, 1], merr = 10^(-4), niter = 100) 
+ssvdpca <- function(X, #threu = 1, # no penalization of the left singular value
+                    threv = 1,
+                    #gamu = 0,  # no penalization of the left singular value
+                    gamv = 0, u0 = svd(X)$u[,1], v0 = svd(X)$v[, 1], merr = 10^(-4), niter = 100)
 {
   n = dim(X)[1]
   d = dim(X)[2]
@@ -22,7 +25,7 @@ ssvdpca <- function(X, threu = 1, threv = 1, gamu = 0, gamv = 0, u0 = svd(X)$u[,
     for (i in 1:rv) {
       lvc = tv[d + 1 - i]
       temp1 = which(winv != 0)
-      temp2 = thresh(z[temp1], type = threv, delta = lvc/winv[temp1])
+      temp2 = thresh(z[temp1], type = threv, delta = lvc/winv[temp1],a)
       vc = rep(0, d)
       vc[temp1] = temp2
       Bv[i] = sum((X - u0 %*% t(vc))^2)/sigsq + i * log(n * d)

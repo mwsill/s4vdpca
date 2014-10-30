@@ -7,7 +7,7 @@ ic_rspca <- function(lambdas,p,index,adaw,ols,X,n,u0,sigsq,a,type,ic_type){
                )           
   ic <- switch(ic_type,
                bic = sum((X - u0 %*% t(vc))^2)/sigsq + index *
-                 log(p+n),
+                 log(p*n),
                gic2 = sum((X - u0 %*% t(vc))^2)/sigsq + index *
                  p^(1/3),
                gic3 = sum((X - u0 %*% t(vc))^2)/sigsq + index *

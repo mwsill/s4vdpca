@@ -4,5 +4,8 @@ export(s4vdpca,
        rspca,
        ssvdpca,
        generate_covar,
-       angle)
+       angle,
+       type1,
+       type2,
+       thresh)
 

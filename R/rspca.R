@@ -1,7 +1,7 @@
 #SSVD PCA Lee et al. 2011 Shen 2006
-rspca <- function(X, center=TRUE, scale=FALSE, gamv = 0, type='soft', ic_type='gic5', a=3.7,  merr = 10^(-4), niter=100,cores=1,steps=100) 
+rspca <- function(x, center=TRUE, scale=FALSE, gamv = 0, type='soft', ic_type='gic5', a=3.7,  merr = 10^(-4), niter=100,cores=1,steps=100) 
 {
-  X  <- scale(X, center, scale)
+  X  <- scale(x, center, scale)
   n <- nrow(X)
   p <- ncol(X)
   stop <- FALSE
@@ -24,7 +24,7 @@ rspca <- function(X, center=TRUE, scale=FALSE, gamv = 0, type='soft', ic_type='g
     v1 <- switch(type,
                  soft = softthresh(ols, delta = lambda/adaw),
                  hard = hardthresh(ols, delta = lambda/adaw),
-                 scad = hardthresh(ols, delta = lambda/adaw,a)
+                 scad = scad(ols, delta = lambda/adaw,a)
     )     
     v1 = v1/sqrt(sum(v1^2))
     u1 = X %*% v1
@@ -32,12 +32,13 @@ rspca <- function(X, center=TRUE, scale=FALSE, gamv = 0, type='soft', ic_type='g
     #ud = sqrt(sum((u0 - u1)^2))
     vd = sqrt(sum((v0 - v1)^2))
     if (iter > niter) {
-      # print("Fail to converge! Increase the niter!")
+      print("Fail to converge! Increase the niter!")
       stop <- TRUE
       break
     }
     u0 = u1
     v0 = v1
   }
-  return(list(u = u1, v = v1, d= as.numeric(t(u1)%*%X%*%v1), iter = iter, ic_type=ic_type, ic=ic , stop = stop))
+  minic <- which.min(ic)
+  return(list(u = u1, v = v1, d= as.numeric(t(u1)%*%X%*%v1), iter = iter, ic_type=ic_type, ic=ic, minic=minic))
 }
