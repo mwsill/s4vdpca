@@ -13,7 +13,7 @@ library(s4vdpca)
 
 # generate a simulated data set using the single-covariance spike model 
 p <- 5000    # number of variables
-n <- 25      # number of observations
+n <- 50      # number of observations
 alpha <- .5  # spike index 
 beta <- .5   # sparsity index 
 
