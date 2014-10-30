@@ -38,8 +38,8 @@ x <- matrix(rnorm(n * p), ncol = p) %*% D + rep(rep(0,p), rep(n, p))
 
 # apply S4VDPCA and RSPCA with different penalization functions, all with GIC5 
 # parallelization is not yet available on Windows machines
-res1 <- s4vdpca(x, center=TRUE, cores=4, ic_type='gic5')
-res2 <- rspca(x, center=TRUE, cores=4, ic_type='gic5') #lasso
+res1 <- s4vdpca(x, center=TRUE, cores=1, ic_type='gic5')
+res2 <- rspca(x, center=TRUE, cores=1, ic_type='gic5') #lasso
 res3 <- rspca(x, center=TRUE, cores=1, ic_type='gic5', type='scad') #scad 
 res4 <- rspca(x, center=TRUE, cores=1, ic_type='gic5', gamv=1) # adaptive lasso
 
