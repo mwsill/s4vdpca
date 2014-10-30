@@ -5,6 +5,11 @@ This R package implements methods for sparse principal component analysis as des
 "Applying Stability Selection to Consistently Estimate Sparse Principal Components in High-Dimensional Molecular Data" submitted to Oxford Bioinformatics.
 
 ```{r}
+# install package using devtools
+# install.packages('devtools')
+library(devtools)                  
+install_github('mwsill/s4vdpca')
+
 # generate a simulated data set using the single-covariance spike model 
 p <- 1000    # number of variables
 n <- 50      # number of observations
@@ -25,6 +30,10 @@ Sigma <- Sigma[[1]]
 D <- chol(Sigma)
 set.seed(30102014)
 x <- matrix(rnorm(n * p), ncol = p) %*% D + rep(rep(0,p), rep(n, p))
+
+#show documentation
+?s4vdpca
+?rspca
 
 # apply S4VDPCA and RSPCA with different penalization functions, all with GIC5 
 res1 <- s4vdpca(x, center=TRUE, cores=4, ic_type='gic5')
