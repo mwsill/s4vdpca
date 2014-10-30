@@ -14,8 +14,8 @@ library(s4vdpca)
 # generate a simulated data set using the single-covariance spike model 
 p <- 1000    # number of variables
 n <- 50      # number of observations
-alpha <- .9  # spike index 
-beta <- .9   # sparsity index 
+alpha <- .8  # spike index 
+beta <- .8   # sparsity index 
 
 # generate a population variance covariance matrix
 Sigma <- generate_covar(alpha,beta,p)
@@ -29,7 +29,7 @@ Sigma <- Sigma[[1]]
 # sample from multivariate normal distribution using Cholesky decomposition
 # see ?rmvn in package broman for details
 D <- chol(Sigma)
-set.seed(30102014)
+set.seed(01112014)
 x <- matrix(rnorm(n * p), ncol = p) %*% D + rep(rep(0,p), rep(n, p))
 
 #show documentation
@@ -37,10 +37,11 @@ x <- matrix(rnorm(n * p), ncol = p) %*% D + rep(rep(0,p), rep(n, p))
 ?rspca
 
 # apply S4VDPCA and RSPCA with different penalization functions, all with GIC5 
-res1 <- s4vdpca(x, center=TRUE, cores=4, ic_type='gic5')
-res2 <- rspca(x, center=TRUE, cores=4, ic_type='gic5') #lasso
-res3 <- rspca(x, center=TRUE, cores=4, ic_type='gic5', type='scad') #scad 
-res4 <- rspca(x, center=TRUE, cores=4, ic_type='gic5', gamv=1) # adaptive lasso
+# parallelization is not yet available on Windows machines
+res1 <- s4vdpca(x, center=TRUE, cores=1, ic_type='gic5')
+res2 <- rspca(x, center=TRUE, cores=1, ic_type='gic5') #lasso
+res3 <- rspca(x, center=TRUE, cores=1, ic_type='gic5', type='scad') #scad 
+res4 <- rspca(x, center=TRUE, cores=1, ic_type='gic5', gamv=1) # adaptive lasso
 
 # plot the information criterion
 par(mfrow=c(2,2))
