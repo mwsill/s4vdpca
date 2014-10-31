@@ -1,10 +1,10 @@
 Package: s4vdpca
 Title: sparse principal component analysis using stability selection
-Version: 0.1.0
+Version: 0.1.1
 Authors@R: c(person("Martin", "Sill", role = c("aut", "cre", "ths"),
     email = "m.sil@dkfz.de"))
 Description: sparse pca using stability selection, fast rspca using lasso, adaptive lasso and scad penalties
-Depends: R (>= 3.0.1)
+Depends: R (>= 3.1.1)
 Imports: parallel
 License: GPL-2
 LazyData: true
