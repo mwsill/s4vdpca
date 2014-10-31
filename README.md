@@ -132,7 +132,6 @@ X <- X - res.s4vdpca$d * res.s4vdpca$u %*% t(res.s4vdpca$v)
 # obtain second sparse PC
 res.s4vdpca2 <- s4vdpca(X,center=FALSE,cores=1,steps=500,B=1000)
 
-
 # perform gene set over representation analysis for PC1
 t_all <- res.s4vdpca$v
 # get entrez gene ids
@@ -142,45 +141,57 @@ t_hits <- as.character(featureData(medullo)$GENE[res.s4vdpca$v!=0])
 t_all <- sort(t_all)
 KEGG_pathways <- KeggGeneSets(species = "Hs") 
 gscs.kegg <- list("KEGG pathways" = KEGG_pathways) 
-gsca.kegg <- new("GSCA", listOfGeneSetCollections=gscs.kegg, geneList=t_all, hits=t_hits)
-gsca.kegg <- preprocess(gsca.kegg, species="Hs", initialIDs="Entrez.gene", keepMultipleMappings=TRUE,
-                        duplicateRemoverMethod="max", orderAbsValue=FALSE)
-gsca.kegg <- analyze(gsca.kegg, para=list(pValueCutoff=0.05, pAdjustMethod ="BH", nPermutations=5,
-                                          minGeneSetSize=20, exponent=1),verbose=T, doGSEA=TRUE)
-
-gsca.kegg <- appendGSTerms(gsca.kegg, keggGSCs="KEGG pathways")
-
-length(getTopGeneSets(gsca.kegg,"HyperGeo.results", "KEGG pathways",allSig=TRUE)[[1]])
-gsca.kegg@result$HyperGeo.results$`KEGG pathways`[gsca.kegg@result$HyperGeo.results$`KEGG pathways`$Adjusted.Pvalue<0.05,]
-
+gsca.kegg <- new("GSCA", listOfGeneSetCollections=gscs.kegg,
+                 geneList=t_all, hits=t_hits)
+gsca.kegg <- preprocess(gsca.kegg, species="Hs",
+                        initialIDs="Entrez.gene",
+                        keepMultipleMappings=TRUE,
+                        duplicateRemoverMethod="max",
+                        orderAbsValue=FALSE)
+gsca.kegg <- analyze(gsca.kegg, para=list(pValueCutoff=0.05,
+                                          pAdjustMethod ="BH",
+                                          nPermutations=5,
+                                          minGeneSetSize=20,
+                                          exponent=1),
+                      verbose=T, doGSEA=TRUE)
+gsca.kegg <- appendGSTerms(gsca.kegg,
+                           keggGSCs="KEGG pathways")
+length(getTopGeneSets(gsca.kegg,"HyperGeo.results",
+                      "KEGG pathways",allSig=TRUE)[[1]])
 hypPC1 <- gsca.kegg@result$HyperGeo.results$`KEGG pathways`
-
-g1 <- viewEnrichMap(gsca.kegg, resultName="HyperGeo.results", gscs="KEGG pathways", ntop=6, 
-                    allSig=FALSE, gsNameType="term", displayEdgeLabel=FALSE,
+g1 <- viewEnrichMap(gsca.kegg, resultName="HyperGeo.results", gscs="KEGG pathways",
+                    ntop=6, allSig=FALSE, gsNameType="term", displayEdgeLabel=FALSE,
                     layout="layout.kamada.kawai",plot=FALSE)
-
+                   
 # perform gene set over representation analysis for PC2
 t_all <- res.s4vdpca2$v
-names(t_all) <- as.character(featureData(medullo)$GENE)
+# get entrez gene ids
+names(t_all) <- featureData(medullo)$GENE
+# define selected genes
 t_hits <- as.character(featureData(medullo)$GENE[res.s4vdpca2$v!=0])
 t_all <- sort(t_all)
 KEGG_pathways <- KeggGeneSets(species = "Hs") 
 gscs.kegg <- list("KEGG pathways" = KEGG_pathways) 
-gsca.kegg <- new("GSCA", listOfGeneSetCollections=gscs.kegg, geneList=t_all, hits=t_hits)
-gsca.kegg <- preprocess(gsca.kegg, species="Hs", initialIDs="Entrez.gene", keepMultipleMappings=TRUE,
-                        duplicateRemoverMethod="max", orderAbsValue=FALSE)
-gsca.kegg <- analyze(gsca.kegg, para=list(pValueCutoff=0.1, pAdjustMethod ="BH", nPermutations=5,
-                                          minGeneSetSize=20, exponent=1))
-gsca.kegg <- appendGSTerms(gsca.kegg, keggGSCs="KEGG pathways")
-
-length(getTopGeneSets(gsca.kegg,"HyperGeo.results", "KEGG pathways",allSig=TRUE)[[1]])
-
-gsca.kegg@result$HyperGeo.results$`KEGG pathways`[gsca.kegg@result$HyperGeo.results$`KEGG pathways`$Adjusted.Pvalue<0.05,]
-
+gsca.kegg <- new("GSCA", listOfGeneSetCollections=gscs.kegg,
+                 geneList=t_all, hits=t_hits)
+gsca.kegg <- preprocess(gsca.kegg, species="Hs",
+                        initialIDs="Entrez.gene",
+                        keepMultipleMappings=TRUE,
+                        duplicateRemoverMethod="max",
+                        orderAbsValue=FALSE)
+gsca.kegg <- analyze(gsca.kegg, para=list(pValueCutoff=0.05,
+                                          pAdjustMethod ="BH",
+                                          nPermutations=5,
+                                          minGeneSetSize=20,
+                                          exponent=1),
+                      verbose=T, doGSEA=TRUE)
+gsca.kegg <- appendGSTerms(gsca.kegg,
+                           keggGSCs="KEGG pathways")
+length(getTopGeneSets(gsca.kegg,"HyperGeo.results",
+                      "KEGG pathways",allSig=TRUE)[[1]])
 hypPC2 <- gsca.kegg@result$HyperGeo.results$`KEGG pathways`
-
-g2 <- viewEnrichMap(gsca.kegg, resultName="HyperGeo.results", gscs="KEGG pathways", ntop=6, 
-                    allSig=FALSE, gsNameType="term", displayEdgeLabel=FALSE,
+g2 <- viewEnrichMap(gsca.kegg, resultName="HyperGeo.results", gscs="KEGG pathways",
+                    ntop=6, allSig=FALSE, gsNameType="term", displayEdgeLabel=FALSE,
                     layout="layout.kamada.kawai",plot=FALSE)
 
 
