@@ -14,7 +14,7 @@ library(s4vdpca)
 # generate a simulated data set using the single-covariance spike model 
 p <- 5000    # number of variables
 n <- 50      # number of observations
-alpha <- .5  # spike index 
+alpha <- .6  # spike index 
 beta <- .5   # sparsity index 
 
 # generate a population variance covariance matrix
@@ -29,7 +29,7 @@ Sigma <- Sigma[[1]]
 # sample from multivariate normal distribution using Cholesky decomposition
 # see ?rmvn in package broman for details
 D <- chol(Sigma)
-set.seed(01112014)
+set.seed(02112014)
 x <- matrix(rnorm(n * p), ncol = p) %*% D + rep(rep(0,p), rep(n, p))
 
 #show documentation
@@ -73,12 +73,6 @@ type1(z1,res1$v)
 type1(z1,res2$v)
 type1(z1,res3$v)
 type1(z1,res4$v)
-
-# calculate type 2 errors
-type2(z1,res1$v)
-type2(z1,res2$v)
-type2(z1,res3$v)
-type2(z1,res4$v)
 
 # apply regular PCA and calculate angle between loadings vector
 # and simulated eigenvector
