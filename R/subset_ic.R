@@ -14,5 +14,6 @@ subset_ic <- function(X,subset,n,p,sigsq,ic_type){
   gic6 = sum((X - sv$d*sv$u%*%t(sv$v))^2)/sigsq + length(subset) *
         log(n*p)*log(p) 
   )
+  return(ic)
 }
 

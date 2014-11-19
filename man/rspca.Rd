@@ -92,10 +92,10 @@ Martin Sill m.sill\code{(at)}dkfz.de
 }
 \examples{
 # generate a simulated data set using the single-covariance spike model 
-p <- 1000    # number of variables
+p <- 5000    # number of variables
 n <- 50      # number of observations
-alpha <- .9  # spike index 
-beta <- .9   # sparsity index 
+alpha <- .6  # spike index 
+beta <- .5   # sparsity index 
 
 # generate a population variance covariance matrix
 Sigma <- generate_covar(alpha,beta,p)
@@ -109,7 +109,7 @@ Sigma <- Sigma[[1]]
 # sample from multivariate normal distribution using Cholesky decomposition
 # see ?rmvn in package broman for details
 D <- chol(Sigma)
-set.seed(30102014)
+set.seed(02112014)
 x <- matrix(rnorm(n * p), ncol = p) %*% D + rep(rep(0,p), rep(n, p))
 
 # apply S4VDPCA and RSPCA with different penalization functions, all with GIC5 
