@@ -9,7 +9,7 @@ Sparse principal component analysis using stability selection.
 }
 \usage{
 s4vdpca(x, center = TRUE, scale = FALSE, B = 100, size = 0.5,\cr 
-        cores = 1, weakness = 0.5, lambda = NULL, lq = 0.5, \cr
+        cores = 1, weakness = 0.5, lambda = NULL, nlambda = 5, \cr
         steps = 100, ic_type = "gic5")
 }
 %- maybe also 'usage' for other objects documented here.
@@ -41,8 +41,8 @@ Parameter for the randomised lasso used within the stability selection, i.e. wil
   \item{lambda}{
 Penalization parameter used for the pointwise stability selection.
 }
-  \item{lq}{
-Quantile to choose penalization parameter based on the data, i.e. \code{0.5} will set \code{lambda} to the median OLS estimate of the coefficents in \eqn{\tilde{\mathbf{v}=\mathbf{X}^{t}%*%\mathbf{u}}}, which is the 'unscaled' loadings vector when applying singular value decomposition (SVD) to caclulate regular, unpenalized PCs.
+  \item{nlambda}{
+Number of lambdas evaluated to find optimal selection probabilities.
 }
   \item{steps}{
 Number of points at which the information criterion is evalute in each iteration of the parallelized optimzation algorithm to search for a global \code{ic} minimum. 
