@@ -8,7 +8,7 @@
 %%  ~~ A concise (1-5 lines) description of what the function does. ~~
 }
 \usage{
-rspca(x, center = TRUE, scale = FALSE, gamv = 0, type = "soft", ic_type = "gic5"\cr
+rspca(x, center = TRUE, scale = FALSE, gamv = 0, type = "soft", ic_type = "gic5" 
       , a = 3.7, merr = 10^(-4), niter = 100, cores = 1, steps = 100)
 }
 %- maybe also 'usage' for other objects documented here.

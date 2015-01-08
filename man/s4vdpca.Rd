@@ -8,8 +8,8 @@ Sparse principal component analysis using stability selection.
 %%  ~~ A concise (1-5 lines) description of what the function does. ~~
 }
 \usage{
-s4vdpca(x, center = TRUE, scale = FALSE, B = 100, size = 0.5,\cr 
-        cores = 1, weakness = 0.5, lambda = NULL, nlambda = 5, \cr
+s4vdpca(x, center = TRUE, scale = FALSE, B = 100, size = 0.5,
+        cores = 1, weakness = 0.5, lambda = NULL, nlambda = 5,
         steps = 100, ic_type = "gic5")
 }
 %- maybe also 'usage' for other objects documented here.
