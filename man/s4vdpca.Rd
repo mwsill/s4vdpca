@@ -53,7 +53,7 @@ Choosing \code{"gic2"} to \code{"gic6"} will apply one of the generalized inform
 }
 }
 \details{
-Implementation of the S4VDPCA algorithm to estimate parameter estimation and feature selection consistent sparse PCs in high-dimensional, low sample size data. In a first step features are ranked by selection probabilities estimated by applying a subsampling scheme motivated by stability selection. In the second step a sparse PC is estimated by simple forward selection using one of several implemented information criteria to select an optimal model.... 
+Implementation of the S4VDPCA algorithm to estimate parameter estimation and feature selection consistent sparse PCs in high-dimensional, low sample size data. In a first step features are ranked by selection probabilities estimated by applying a subsampling scheme motivated by stability selection. In the second step a sparse PC is estimated by simple forward selection using one of several implemented information criteria to select an optimal model...
 
 }
 \value{
