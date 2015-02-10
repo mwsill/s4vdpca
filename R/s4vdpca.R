@@ -23,7 +23,7 @@ s4vdpca <- function(x,center=TRUE,scale=FALSE,B=100,size=.5,cores=1,weakness=.5,
   selprobs <- estselprob_randomised_lasso(X,u,n,lambda,B,subsets,weakness,cores)[-1]
   pr <- selprobs
   #selprobs <-order(selprobs,decreasing=TRUE) 
-  selprobs <- order(rank(res1$selprobs,ties.method='random'),decreasing=T) # ranodmise ties
+  selprobs <- order(rank(selprobs,ties.method='random'),decreasing=T) # rank ties at random
   ic <- parallel_ic(X,selprobs,p,n,sigsq,cores,steps,ic_type)
   minic <- which.min(ic)
   sv  <- subset_svd(X,selprobs[1:minic])
