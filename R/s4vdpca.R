@@ -17,7 +17,7 @@ s4vdpca <- function(x,center=TRUE,scale=FALSE,B=100,size=.5,cores=1,weakness=.5,
     for(i in 1:length(lqs)){
       sels[[i]] <- estselprob_randomised_lasso(X,u,n,quantile(abs(ols),lqs[i]),B,subsets,weakness,cores)[-1]
     }
-    i <- which.min(abs(unlist(lapply(sels,function(x)sum(x)/p))-.5))
+    i <- which.max(unlist(lapply(sels,function(x)length(unique(x)))))
     lambda <- quantile(abs(ols),lqs[i])
   }
   selprobs <- estselprob_randomised_lasso(X,u,n,lambda,B,subsets,weakness,cores)[-1]
