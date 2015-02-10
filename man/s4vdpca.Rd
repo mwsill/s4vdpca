@@ -36,7 +36,7 @@ Number of cores used for parallelization. Currently only Unix operating systems 
 }
   \item{weakness}{
 Parameter for the randomised lasso used within the stability selection, i.e. will reweight the penalization parameter \code{lambda} applied to each coefficient using random weights sampled from an uniform distribution. \cr
-\eqn{\lambda_{i}^{reweighted} = \frac{\lambda}{\mathcal{U}(1-\textit{weakness},1)}}
+\eqn{\lambda_{i}^{reweighted} = \frac{\lambda}{\mathcal{U}(\textit{weakness},1)}}
 }
   \item{lambda}{
 Penalization parameter used for the pointwise stability selection.
