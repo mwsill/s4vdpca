@@ -14,8 +14,8 @@ library(s4vdpca)
 # generate a simulated data set using the single-covariance spike model 
 p <- 5000    # number of variables
 n <- 50      # number of observations
-alpha <- .6  # spike index 
-beta <- .5   # sparsity index 
+alpha <- .8  # spike index 
+beta <- .75   # sparsity index 
 
 # generate a population variance covariance matrix
 Sigma <- generate_covar(alpha,beta,p)
