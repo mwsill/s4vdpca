@@ -18,12 +18,12 @@ s4vdpca <- function(x,center=TRUE,scale=FALSE,B=100,size=.5,cores=1,weakness=.5,
       for(i in 1:length(lqs)){
         sels[[i]] <- estselprob_randomised_lasso(X,u,n,quantile(abs(ols),lqs[i]),B,subsets,weakness,cores)[-1]
       }
-      i <- which.max(unlist(lapply(sels,function(x)length(unique(rank(x,decreasing=T)))))) # minimise ties maybe TODO check hartigans dip statistic
+      i <- which.max(unlist(lapply(sels,function(x)length(unique(rank(x)))))) # minimise ties maybe TODO check hartigans dip statistic
     }else{
       for(i in 1:length(lqs)){
         sels[[i]] <- aveloadings_randomised_lasso(X,u,n,quantile(abs(ols),lqs[i]),B,subsets,weakness,cores)[-1]
       }
-      i <- which.max(unlist(lapply(sels,function(x)length(unique(rank(abs(x)),deacreasing=T)))))
+      i <- which.max(unlist(lapply(sels,function(x)length(unique(rank(abs(x)))))))
     }  
     lambda <- quantile(abs(ols),lqs[i])
   }
