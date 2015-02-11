@@ -70,6 +70,6 @@ ssvdpca <- function(X, #threu = 1, # no penalization of the left singular value
     u0 = u1
     v0 = v1
   }
-  return(list(u = u1, v = v1, iter = iter, stop = stop,BIC=Bv))
+  return(list(u = u1, v = v1, d= as.numeric(t(u1)%*%X%*%v1), iter = iter, stop = stop,BIC=Bv))
 }
 

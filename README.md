@@ -38,41 +38,70 @@ x <- matrix(rnorm(n * p), ncol = p) %*% D + rep(rep(0,p), rep(n, p))
 
 # apply S4VDPCA and RSPCA with different penalization functions, all with GIC5 
 # parallelization is not yet available on Windows machines
-res1 <- s4vdpca(x, center=TRUE, cores=1, ic_type='gic5')
+res1 <- s4vdpca(x, center=TRUE, cores=1, ic_type='gic5',weakness=0.2,B=500)
 res2 <- rspca(x, center=TRUE, cores=1, ic_type='gic5') #lasso
 res3 <- rspca(x, center=TRUE, cores=1, ic_type='gic5', type='scad') #scad 
 res4 <- rspca(x, center=TRUE, cores=1, ic_type='gic5', gamv=1) # adaptive lasso
-
+res5 <- s4vdpca(x, center=TRUE, cores=1, ic_type='gic5',rankbyloadings=T, weakness=1, B=500)
+res5.1 <- s4vdpca(x, center=TRUE, cores=1, ic_type='gic5',rankbyloadings=T, weakness=.2, B=500)
+=
 # plot the information criterion
-par(mfrow=c(2,2))
+par(mfrow=c(2,3))
 plot(res1$ic, xlab='number of selected features', ylab='GIC 5'
 ,main='S4VDPCA')
 abline(v=res1$minic, col='red')
 text(y=max(res1$ic,na.rm=T)-1000,x=res1$minic+100,res1$minic,col='red')
+
 plot(res2$ic, xlab='number of selected features', ylab='GIC 5'
 ,main='RSPCA lasso')
 abline(v=res2$minic, col='red')
 text(y=max(res2$ic,na.rm=T)-1000,x=res2$minic+100,res2$minic,col='red')
+
 plot(res3$ic, xlab='number of selected features', ylab='GIC 5'
 ,main='RSPCA scad')
 abline(v=res3$minic, col='red')
 text(y=max(res3$ic,na.rm=T)-1000,x=res3$minic+100,res3$minic,col='red')
+
 plot(res4$ic, xlab='number of selected features', ylab='GIC 5'
 ,main='RSPCA adaptive lasso')
 abline(v=res4$minic, col='red')
-text(y=max(res4$ic,na.rm=T)-1000,x=res4$minic+100,res4$minic,col='red')
+text(y=max(res4$ic,na.rm=T)-1000,x=res4$minic+100,res5$minic,col='red')
+
+plot(res5$ic, xlab='number of selected features', ylab='GIC 5'
+,main='S4VDPCAloadings weakness=1')
+abline(v=res5$minic, col='red')
+text(y=max(res5$ic,na.rm=T)-1000,x=res5$minic+100,res5$minic,col='red')
+
+plot(res5.1$ic, xlab='number of selected features', ylab='GIC 5'
+,main='S4VDPCAloadings weakness=.2')
+abline(v=res5.1$minic, col='red')
+text(y=max(res5.1$ic,na.rm=T)-1000,x=res5.1$minic+100,res5.1$minic,col='red')
+
+
 
 # calculate angle between estimated sparse loadings vector and simulated eigenvector
 angle(res1$v,z1)
 angle(res2$v,z1)
 angle(res3$v,z1)
 angle(res4$v,z1)
+angle(res5$v,z1)
+angle(res5.1$v,z1)
 
 # calculate number of falsely selected features
 type1(z1,res1$v)
 type1(z1,res2$v)
 type1(z1,res3$v)
 type1(z1,res4$v)
+type1(z1,res5$v)
+type1(z1,res5.1$v)
+
+# calculate number of type2 errors
+type2(z1,res1$v)
+type2(z1,res2$v)
+type2(z1,res3$v)
+type2(z1,res4$v)
+type2(z1,res5$v)
+type2(z1,res5.1$v)
 
 # apply regular PCA and calculate angle between loadings vector
 # and simulated eigenvector
@@ -82,19 +111,19 @@ angle(pca$rotation[,1],z1)
 # ssvdpca is the original rspca function by Lee et al. 2010
 X  <- scale(x, center=TRUE)
 system.time(
-res5 <- ssvdpca(X) #lasso
+res6 <- ssvdpca(X) #lasso
 )
 # optimized code; search for minimal bic
 system.time(
-res6 <- rspca(X, center=FALSE, cores=1,steps=100, ic_type='bic') #lasso
+res7 <- rspca(X, center=FALSE, cores=1,steps=100, ic_type='bic') #lasso
 )
 # optimized code; parallelized search for minimal bic, only on Unix machines
 system.time(
-res7 <- rspca(X, center=FALSE, cores=4,steps=100, ic_type='bic') #lasso
+res8 <- rspca(X, center=FALSE, cores=4,steps=100, ic_type='bic') #lasso
 )
 # estimated loadings are the same 
-all(res5$v==res6$v)
-all(res5$v==res7$v)
+all(res6$v==res7$v)
+all(res6$v==res8$v)
 
 
 ###### real data application example
