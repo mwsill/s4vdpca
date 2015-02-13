@@ -39,7 +39,7 @@ s4vdpca <- function(x,center=TRUE,scale=FALSE,B=100,size=.5,cores=1,weakness=.5,
   ic <- parallel_ic(X,selprobs,p,n,sigsq,cores,steps,ic_type)
   minic <- which.min(ic)
   sv  <- subset_svd(X,selprobs[1:minic])
-  out <- list(u=sv$u,v=sv$v,d=sv$d,lambda=lambda,selprobs=pr,order=selprobs,ic_type=ic_type,ic=ic,minic=minic)
+  out <- list(u=sv$u,v=sv$v,d=sv$d,sdev=sv$d/sqrt(n-1),lambda=lambda,selprobs=pr,order=selprobs,ic_type=ic_type,ic=ic,minic=minic)
   return(out)
 }
 

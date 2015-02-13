@@ -7,5 +7,7 @@ export(s4vdpca,
        angle,
        type1,
        type2,
-       thresh)
+       thresh,
+       emp_spike,
+       emp_sparsity)
 

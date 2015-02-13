@@ -40,5 +40,6 @@ rspca <- function(x, center=TRUE, scale=FALSE, gamv = 0, type='soft', ic_type='g
     v0 = v1
   }
   minic <- which.min(ic)
-  return(list(u = u1, v = v1, d= as.numeric(t(u1)%*%X%*%v1), iter = iter, ic_type=ic_type, ic=ic, minic=minic))
+  d <- as.numeric(t(u1)%*%X%*%v1)
+  return(list(u = u1, v = v1, d=d ,sdev=d/sqrt(n-1), iter = iter, ic_type=ic_type, ic=ic, minic=minic))
 }
