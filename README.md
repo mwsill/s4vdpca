@@ -13,9 +13,9 @@ library(s4vdpca)
 
 # generate a simulated data set using the single-covariance spike model 
 p <- 5000    # number of variables
-n <- 50      # number of observations
-alpha <- .8  # spike index 
-beta <- .75   # sparsity index 
+n <- 100      # number of observations
+alpha <- 0.8  # spike index 
+beta <- 0.8   # sparsity index 
 
 # generate a population variance covariance matrix
 Sigma <- generate_covar(alpha,beta,p)
@@ -29,7 +29,7 @@ Sigma <- Sigma[[1]]
 # sample from multivariate normal distribution using Cholesky decomposition
 # see ?rmvn in package broman for details
 D <- chol(Sigma)
-set.seed(02112014)
+set.seed(24022015)
 x <- matrix(rnorm(n * p), ncol = p) %*% D + rep(rep(0,p), rep(n, p))
 
 #show documentation
@@ -42,11 +42,9 @@ res1 <- s4vdpca(x, center=TRUE, cores=1, ic_type='gic5',weakness=0.2,B=500)
 res2 <- rspca(x, center=TRUE, cores=1, ic_type='gic5') #lasso
 res3 <- rspca(x, center=TRUE, cores=1, ic_type='gic5', type='scad') #scad 
 res4 <- rspca(x, center=TRUE, cores=1, ic_type='gic5', gamv=1) # adaptive lasso
-res5 <- s4vdpca(x, center=TRUE, cores=1, ic_type='gic5',rankbyloadings=T, weakness=1, B=500)
-res5.1 <- s4vdpca(x, center=TRUE, cores=1, ic_type='gic5',rankbyloadings=T, weakness=.2, B=500)
-=
+
 # plot the information criterion
-par(mfrow=c(2,3))
+par(mfrow=c(2,2))
 plot(res1$ic, xlab='number of selected features', ylab='GIC 5'
 ,main='S4VDPCA')
 abline(v=res1$minic, col='red')
@@ -65,43 +63,39 @@ text(y=max(res3$ic,na.rm=T)-1000,x=res3$minic+100,res3$minic,col='red')
 plot(res4$ic, xlab='number of selected features', ylab='GIC 5'
 ,main='RSPCA adaptive lasso')
 abline(v=res4$minic, col='red')
-text(y=max(res4$ic,na.rm=T)-1000,x=res4$minic+100,res5$minic,col='red')
-
-plot(res5$ic, xlab='number of selected features', ylab='GIC 5'
-,main='S4VDPCAloadings weakness=1')
-abline(v=res5$minic, col='red')
-text(y=max(res5$ic,na.rm=T)-1000,x=res5$minic+100,res5$minic,col='red')
-
-plot(res5.1$ic, xlab='number of selected features', ylab='GIC 5'
-,main='S4VDPCAloadings weakness=.2')
-abline(v=res5.1$minic, col='red')
-text(y=max(res5.1$ic,na.rm=T)-1000,x=res5.1$minic+100,res5.1$minic,col='red')
-
-
+text(y=max(res4$ic,na.rm=T)-1000,x=res4$minic+100,res4$minic,col='red')
 
 # calculate angle between estimated sparse loadings vector and simulated eigenvector
 angle(res1$v,z1)
 angle(res2$v,z1)
 angle(res3$v,z1)
 angle(res4$v,z1)
-angle(res5$v,z1)
-angle(res5.1$v,z1)
 
 # calculate number of falsely selected features
 type1(z1,res1$v)
 type1(z1,res2$v)
 type1(z1,res3$v)
 type1(z1,res4$v)
-type1(z1,res5$v)
-type1(z1,res5.1$v)
 
 # calculate number of type2 errors
 type2(z1,res1$v)
 type2(z1,res2$v)
 type2(z1,res3$v)
 type2(z1,res4$v)
-type2(z1,res5$v)
-type2(z1,res5.1$v)
+
+# calculate empirical spike index
+emp_spike(res1$sdev,p)
+emp_spike(res2$sdev,p)
+emp_spike(res3$sdev,p)
+emp_spike(res4$sdev,p)
+alpha
+
+# calculate empirical sparsity index
+emp_sparsity(res1$minic,p)
+emp_sparsity(res2$minic,p)
+emp_sparsity(res3$minic,p)
+emp_sparsity(res4$minic,p)
+beta
 
 # apply regular PCA and calculate angle between loadings vector
 # and simulated eigenvector
@@ -149,11 +143,15 @@ dim(X)
 
 # estimate first sparse PC using S4VDPCA
 set.seed(10102014,"L'Ecuyer-CMRG")
-res.s4vdpca <- s4vdpca(X,center=FALSE,cores=1,steps=500,B=1000) 
+res.s4vdpca <- s4vdpca(X,center=FALSE,cores=4,steps=1000,B=500) 
+res.rspca <- rspca(X, center=FALSE, cores=4,steps=1000,niter=200,merr=10^(-4), ic_type='gic5') 
 # subtract first sparse rank1 layer
-X <- X - res.s4vdpca$d * res.s4vdpca$u %*% t(res.s4vdpca$v) 
+X.1 <- X - (res.s4vdpca$d * res.s4vdpca$u %*% t(res.s4vdpca$v)) 
+X.2 <- X - (res.rspca$d * res.s4vdpca$u %*% t(res.rspca$v) )
 # obtain second sparse PC
-res.s4vdpca2 <- s4vdpca(X,center=FALSE,cores=1,steps=500,B=1000)
+res.s4vdpca2 <- s4vdpca(X.1,center=FALSE,cores=4,steps=1000,B=500)
+res.rspca2 <- rspca(X.2, center=FALSE, cores=4,steps=1000,niter=200,merr=10^(-4), ic_type='gic5') 
+
 
 # perform gene set over representation analysis for PC1
 t_all <- res.s4vdpca$v
