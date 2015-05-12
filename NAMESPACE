@@ -13,6 +13,7 @@ export(s4vdpca,
        screeplot.spca,
        biplot.spca,
        plot.spca,
+       plot.spc,
        summary.spca,
        spca)
 
