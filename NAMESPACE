@@ -9,5 +9,10 @@ export(s4vdpca,
        type2,
        thresh,
        emp_spike,
-       emp_sparsity)
+       emp_sparsity,
+       screeplot.spca,
+       biplot.spca,
+       plot.spca,
+       summary.spca,
+       spca)
 

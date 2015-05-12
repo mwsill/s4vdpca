@@ -8,22 +8,14 @@ Sparse principal component analysis using stability selection.
 %%  ~~ A concise (1-5 lines) description of what the function does. ~~
 }
 \usage{
-s4vdpca(x, center = TRUE, scale = FALSE, B = 100, size = 0.5,
+s4vdpca(X , B = 100, size = 0.5,
         cores = 1, weakness = 0.5, lambda = NULL, nlambda = 5,
         steps = 100, ic_type = "gic5")
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{x}{
+  \item{X}{
   a numeric data matrix object, where columns represent variables and rows are observations.    
-}
-  \item{center}{
-  Either a logical value or a numeric vector of length equal to the number of columns of \code{x}.
-  The value of \code{center} determines how column centering is performed. If \code{center} is a numeric vector with length equal to the number of columns of \code{x}, then each column of \code{x} has the corresponding value from center subtracted from it. If \code{center} is \code{TRUE} then centering is done by subtracting the column means (omitting \code{NA}s) of \code{x} from their corresponding columns, and if \code{center} is \code{FALSE}, no centering is done. See generic function \code{?scale} for details.
-  
-}
-  \item{scale}{
-  Either a logical value or a numeric vector of length equal to the number of columns of \code{x}. The value of \code{scale} determines how column scaling is performed (after centering). If \code{scale} is a numeric vector with length equal to the number of columns of \code{x}, then each column of \code{x} is divided by the corresponding value from \code{scale}. If \code{scale} is \code{TRUE} then scaling is done by dividing the (centered) columns of \code{x} by their standard deviations if \code{center} is \code{TRUE}, and the root mean square otherwise. If \code{scale} is \code{FALSE}, no scaling is done. See generic function \code{?scale} for details. 
 }
   \item{B}{
 Number of subsamples used for stability selection.

@@ -1,1 +1,0 @@
-hardthresh <- function(ols,delta) return(ols * (abs(ols) > delta))
