@@ -98,11 +98,11 @@ res6 <- ssvdpca(X) #lasso
 )
 # optimized code; search for minimal bic
 system.time(
-res7 <- rspca(X, center=FALSE, cores=1,steps=100, ic_type='bic') #lasso
+res7 <- rspca(X, cores=1,steps=100, ic_type='bic') #lasso
 )
 # optimized code; parallelized search for minimal bic, only on Unix machines
 system.time(
-res8 <- rspca(X, center=FALSE, cores=4,steps=100, ic_type='bic') #lasso
+res8 <- rspca(X, cores=4,steps=100, ic_type='bic') #lasso
 )
 # estimated loadings are the same 
 all(res6$v==res7$v)
