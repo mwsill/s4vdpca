@@ -85,28 +85,6 @@ emp_sparsity(res2$minic,p)
 emp_sparsity(res3$minic,p)
 emp_sparsity(res4$minic,p)
 beta
-
-# apply regular PCA and calculate angle between loadings vector
-# and simulated eigenvector
-pca <- prcomp(x)
-angle(pca$rotation[,1],z1)
-
-# ssvdpca is the original rspca function by Lee et al. 2010
-X  <- scale(x, center=TRUE)
-system.time(
-res6 <- ssvdpca(X) #lasso
-)
-# optimized code; search for minimal bic
-system.time(
-res7 <- rspca(X, cores=1,steps=100, ic_type='bic') #lasso
-)
-# optimized code; parallelized search for minimal bic, only on Unix machines
-system.time(
-res8 <- rspca(X, cores=4,steps=100, ic_type='bic') #lasso
-)
-# estimated loadings are the same 
-all(res6$v==res7$v)
-all(res6$v==res8$v)
 ```
 
 Real data application 
