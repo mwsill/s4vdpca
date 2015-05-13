@@ -114,4 +114,4 @@ plot(res,1,main='PC1')
 plot(res,2,main='PC2')
 biplot(res,pcol=medullo$subtype,alpha=0.4)
 ```
-![alt text]https://github.com/mwsill/s4vdpca/blob/master/img2.png
+![](https://github.com/mwsill/s4vdpca/blob/master/img2.png)
