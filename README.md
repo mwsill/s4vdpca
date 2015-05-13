@@ -112,6 +112,6 @@ par(mfrow=c(2,2))
 screeplot(res)
 plot(res,1,main='PC1')
 plot(res,2,main='PC2')
-biplot(res,pcol=medullo$subtype,alpha=0.5)
+biplot(res,pcol=medullo$subtype,alpha=0.4)
 ```
 
