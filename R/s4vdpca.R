@@ -12,32 +12,19 @@ s4vdpca <- function(X,B=500,size=.5,cores=1,weakness=.5,a=3.7,rankbyloadings=F,l
   if(is.null(lambda)){ #search for an optimal lambda
     sels <- list()
     lqs <- seq(.1,.9,len=nlambda)
-    if(!rankbyloadings){
-      for(i in 1:length(lqs)){
+    for(i in 1:length(lqs)){
         sels[[i]] <- .estselprob_randomised_lasso(X,u,n,quantile(abs(ols),lqs[i]),B,subsets,weakness,cores)[-1]
-      }
-      i <- which.max(unlist(lapply(sels,function(x)length(unique(rank(x)))))) # minimise ties maybe TODO check hartigans dip statistic
-    }else{
-      for(i in 1:length(lqs)){
-        sels[[i]] <- .aveloadings_randomised_lasso(X,u,n,quantile(abs(ols),lqs[i]),B,subsets,weakness,cores)[-1]
-      }
-      i <- which.max(unlist(lapply(sels,function(x)length(unique(rank(abs(x)))))))
-    }  
+    }
+    i <- which.max(unlist(lapply(sels,function(x)length(unique(rank(x))))))     
     lambda <- quantile(abs(ols),lqs[i])
   }
-  if(!rankbyloadings){
-    selprobs <- .estselprob_randomised_lasso(X,u,n,lambda,B,subsets,weakness,cores)[-1]
-  }else{
-    selprobs <- .aveloadings_randomised_lasso(X,u,n,lambda,B,subsets,weakness,cores)[-1]
-  }
-  pr <- selprobs
-  #selprobs <-order(selprobs,decreasing=TRUE) 
-  selprobs <- order(rank(selprobs,ties.method='random'),decreasing=T) # rank ties at random
-  if(rankbyloadings) selprobs <- order(rank(abs(pr),ties.method='random'),decreasing=T) 
-  ic <- .parallel_ic(X,selprobs,p,n,sigsq,cores,steps,ic_type)
+  selprobs <- .estselprob_randomised_lasso(X,u,n,lambda,B,subsets,weakness,cores)[-1]
+  orank <- order(rank(selprobs,ties.method='random'),decreasing=T) # rank ties at random
+  ic <- .parallel_ic(X,orank,p,n,sigsq,cores,steps,ic_type)
   minic <- which.min(ic)
-  sv  <- .subset_svd(X,selprobs[1:minic])
-  out <- list(u=sv$u,v=sv$v,d=sv$d,sdev=sv$d/sqrt(n-1),lambda=lambda,selprobs=pr,order=selprobs,ic_type=ic_type,ic=ic,minic=minic)
+  sv  <- .subset_svd(X,orank[1:minic])
+  out <- list(u=sv$u,v=sv$v,d=sv$d,sdev=sv$d/sqrt(n-1),lambda=lambda,selprobs=selprobs,
+              order=orank,ic_type=ic_type,ic=ic,minic=minic)
   class(out) <- 'spc'
   structure(out,call=match.call())
 }
@@ -66,11 +53,11 @@ s4vdpca <- function(X,B=500,size=.5,cores=1,weakness=.5,a=3.7,rankbyloadings=F,l
   return(ic)
 }
 
-.parallel_ic <- function(X,selprobs,p,n,sigsq,cores,steps,ic_type){
+.parallel_ic <- function(X,orank,p,n,sigsq,cores,steps,ic_type){
   ic <- rep(NA,p)
   points <- floor(seq(1,p,length.out=steps))
   ic[points] <- unlist(mclapply(points,mc.cores=cores, function(index){
-    .subset_ic(X,selprobs[1:index],n,p,sigsq,ic_type)
+    .subset_ic(X,orank[1:index],n,p,sigsq,ic_type)
   }))
   for(i in 1:20){
     minip <- which.min(ic) 
@@ -78,13 +65,13 @@ s4vdpca <- function(X,B=500,size=.5,cores=1,weakness=.5,a=3.7,rankbyloadings=F,l
     if(abs(max(1,points[minp-1])-min(points[minp+1],p,na.rm=T)) < steps){
       points <- max(1,points[minp-1]):min(points[minp+1],p,na.rm=T)
       ic[points] <- unlist(mclapply(points,mc.cores=cores, function(index){
-        .subset_ic(X,selprobs[1:index],n,p,sigsq,ic_type)
+        .subset_ic(X,orank[1:index],n,p,sigsq,ic_type)
       }))
       break
     }else{
       points <- floor(seq(max(1,points[minp-1]),min(points[minp+1],p,na.rm=T),length.out=steps))
       ic[points] <- unlist(mclapply(points,mc.cores=cores, function(index){
-        .subset_ic(X,selprobs[1:index],n,p,sigsq,ic_type)
+        .subset_ic(X,orank[1:index],n,p,sigsq,ic_type)
       }))
     }
   }

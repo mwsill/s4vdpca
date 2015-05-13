@@ -46,9 +46,7 @@ Number of points at which the information criterion is evaluted in each iteratio
 }
 }
 \details{
-The function implements the regularized sparse PCA method proposed by Shen and Huang (2008) and Lee et al. (2010). The algorithm has been optimized for computational efficiency, i.e. to find the minimal BIC a grid search is performed instead of evaluating the BIC for each variable. In addition, this grid search algorithm hase been parallelized. 
-Alternatively, different generalized information criteria (GIC) proposed to by Yongdai et al. (2012) can be used.
-
+The function implements the regularized sparse PCA method proposed by Shen and Huang (2008) and Lee et al. (2010). The algorithm has been optimized for computational efficiency, i.e. to find the minimal BIC a grid search is performed instead of evaluating the BIC for each variable. In addition, this grid search algorithm hase been parallelized. Alternatively, different generalized information criteria (GIC) proposed to by Yongdai et al. (2012) can be used.
 }
 \value{
 A list of

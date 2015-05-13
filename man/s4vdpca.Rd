@@ -8,8 +8,8 @@ Sparse principal component analysis using stability selection.
 %%  ~~ A concise (1-5 lines) description of what the function does. ~~
 }
 \usage{
-s4vdpca(X , B = 100, size = 0.5,
-        cores = 1, weakness = 0.5, lambda = NULL, nlambda = 5,
+s4vdpca(X , B = 100, size = 0.5, cores = 1,
+        weakness = 0.5, lambda = NULL, nlambda = 5,
         steps = 100, ic_type = "gic5")
 }
 %- maybe also 'usage' for other objects documented here.
@@ -45,8 +45,7 @@ Choosing \code{"gic2"} to \code{"gic6"} will apply one of the generalized inform
 }
 }
 \details{
-Implementation of the S4VDPCA algorithm to estimate parameter estimation and feature selection consistent sparse PCs in high-dimensional, low sample size data. In a first step features are ranked by selection probabilities estimated by applying a subsampling scheme motivated by stability selection. In the second step a sparse PC is estimated by simple forward selection using one of several implemented information criteria to select an optimal model...
-
+Implementation of the S4VDPCA algorithm to estimate parameter estimation and feature selection consistent sparse PCs in high-dimensional, low sample size data. In a first step features are ranked by selection probabilities estimated by applying a subsampling scheme motivated by stability selection. In the second step a sparse PC is estimated by simple forward selection using one of several implemented information criteria to select an optimal model.
 }
 \value{
 A list of
@@ -61,6 +60,9 @@ A list of
 \item{minic}{number of selected features}
 }
 \references{
+Sill, M., Saadati, M., and Benner, A. (2015). Applying stability selection to consistently estimate sparse principal components in high-dimensional molecular data. \cr
+Oxford Bioinformatics. \cr
+ 
 Yongdai, K., Sunghoon, K., and Hosik, C. (2012). Consistent model selection criteria on high dimensions.\cr 
 Journal of Machine Learning Research, 13, 1037–1057.\cr
 
