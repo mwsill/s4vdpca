@@ -53,7 +53,10 @@ plot(res1,main='S4VDPCA')
 plot(res2,main='RSPCA lasso')
 plot(res3,main='RSPCA scad')
 plot(res4,main='RSPCA adaptive lasso')
+```
+![](https://github.com/mwsill/s4vdpca/blob/master/img2.png)
 
+```{r}
 # calculate angle between estimated sparse loadings vector and simulated eigenvector
 angle(res1$v,z1)
 angle(res2$v,z1)
