@@ -37,7 +37,7 @@ Penalization parameter used for the pointwise stability selection.
 Number of lambdas evaluated to find optimal selection probabilities.
 }
   \item{steps}{
-Number of points at which the information criterion is evalute in each iteration of the parallelized optimzation algorithm to search for a global \code{ic} minimum. 
+Number of points at which the information criterion is evaluted in each iteration of the parallelized grid search for a global \code{ic} minimum. 
 }
   \item{ic_type}{
 Type of information criterion used for model selecion. \code{"bic"} will use the bayesian information criterion (BIC). 
@@ -50,7 +50,7 @@ Implementation of the S4VDPCA algorithm to estimate parameter estimation and fea
 \value{
 A list of
 \item{u}{left singular vector}
-\item{v}{sparse right singular vector, i.e. sparse loadings vector scaled to unit length}
+\item{v}{sparse right singular vector, i.e. sparse loadings vector}
 \item{d}{singular value}
 \item{lambda}{penalization parameter used for the stability selection}
 \item{selprobs}{estimated selection probabilities}

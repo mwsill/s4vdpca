@@ -42,7 +42,7 @@ maximum number of iterations (default = 100)
 Number of cores used for parallelization. Currently only Unix operating systems are supported.
 }
   \item{steps}{
-Number of points at which the information criterion is evaluted in each iteration of the parallelized optimzation algorithm to search for a global \code{ic} minimum. 
+Number of points at which the information criterion is evaluted in each iteration of the parallelized grid search for a global \code{ic} minimum. 
 }
 }
 \details{
@@ -51,7 +51,7 @@ The function implements the regularized sparse PCA method proposed by Shen and H
 \value{
 A list of
 \item{u}{left singular vector}
-\item{v}{sparse right singular vector, i.e. sparse loadings vector scaled to unit length}
+\item{v}{sparse right singular vector, i.e. sparse loadings vector}
 \item{d}{singular value}
 \item{iter}{number of iterations until convergence}
 \item{ic_type}{type of information criterion used for model selection}
