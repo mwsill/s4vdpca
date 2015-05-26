@@ -120,7 +120,8 @@ biplot(res,pcol=medullo$subtype,alpha=0.4)
 ![](./img2.png)
 
 ```{r}
-# interactive 3d scatteplot using the threejs package and the wesanderson color palette generator
+# interactive 3d scatteplot using the threejs package
+# and the wesanderson color palette generator
 library(threejs)
 library(wesanderson)
 cols <- wes_palette("Royal1")
