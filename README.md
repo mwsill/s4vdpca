@@ -118,3 +118,18 @@ plot(res,2,main='PC2')
 biplot(res,pcol=medullo$subtype,alpha=0.4)
 ```
 ![](https://github.com/mwsill/s4vdpca/blob/master/img2.png)
+
+```{r}
+# interactive 3d scatteplot using the threejs package 
+library(threejs)
+library(wesanderson)
+cols <- wes_palette("Royal1")
+names(cols) <- unique(medullo$subtype)
+cols <- cols[medullo$subtype]
+names(cols) <- NULL
+scatterplot3js(cbind(PC1=res[[1]]$u,PC2=res[[2]]$u,PC3=res[[3]]$u),
+                col=cols,
+                size=2,
+                renderer='canvas')
+```
+![](https://github.com/mwsill/s4vdpca/blob/master/scatter3djs.png)
