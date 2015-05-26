@@ -15,5 +15,6 @@ export(s4vdpca,
        plot.spca,
        plot.spc,
        summary.spca,
+       print.spca,
        spca)
 
