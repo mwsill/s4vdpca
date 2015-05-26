@@ -54,7 +54,7 @@ plot(res2,main='RSPCA lasso')
 plot(res3,main='RSPCA scad')
 plot(res4,main='RSPCA adaptive lasso')
 ```
-![](https://github.com/mwsill/s4vdpca/blob/master/img1.png)
+![](./img1.png)
 
 ```{r}
 # calculate angle between estimated sparse loadings vector and simulated eigenvector
@@ -117,7 +117,7 @@ plot(res,1,main='PC1')
 plot(res,2,main='PC2')
 biplot(res,pcol=medullo$subtype,alpha=0.4)
 ```
-![](https://github.com/mwsill/s4vdpca/blob/master/img2.png)
+![](./img2.png)
 
 ```{r}
 # interactive 3d scatteplot using the threejs package 
@@ -132,4 +132,5 @@ scatterplot3js(cbind(PC1=res[[1]]$u,PC2=res[[2]]$u,PC3=res[[3]]$u),
                 size=2,
                 renderer='canvas')
 ```
+
 ![](http://htmlpreview.github.io/?https://github.com/mwsill/s4vdpca/blob/master/scatter3djs.html)
