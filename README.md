@@ -133,4 +133,4 @@ scatterplot3js(cbind(PC1=res[[1]]$u,PC2=res[[2]]$u,PC3=res[[3]]$u),
                 size=3,
                 renderer='canvas')
 ```
-[![](figures/scatter3djs.png)](http://htmlpreview.github.io/?https://github.com/mwsill/s4vdpca/blob/figures/scatter3djs.html)
+[![](https://github.com/mwsill/s4vdpca/blob/figures/scatter3djs.png)](http://htmlpreview.github.io/?https://github.com/mwsill/s4vdpca/blob/figures/scatter3djs.html)
