@@ -98,3 +98,16 @@ thresh <- function(z,delta,  type=1, a=3.7){
              ((a-1)*z-sign(z)*a*delta)/(a-2)*(2*delta<abs(z))*(abs(z)<=a*delta)+z*(abs(z)>a*delta))
   }
 }
+
+
+
+
+#temp1 <- which(winv!=0)
+#Bv[1:rv] <- foreach(i=1:rv,.combine=c,.multicombine=TRUE) %dopar% {
+#  lvc  <-  tv[d+1-i]
+#  delta <- lvc/winv[temp1]
+#  temp2 <- sign(z[temp1]) * (abs(z[temp1]) >= delta) * (abs(z) - delta)
+#  vc <- rep(0,d)
+#  vc[temp1] <- temp2
+#  sum((z - vc)^2)/sigsq + i*log(n*d)  ## Note
+#}
